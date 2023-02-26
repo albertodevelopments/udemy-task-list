@@ -1,0 +1,67 @@
+<div id="task-list" class="row mt-2 mb-2 rounded">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12">
+                <h1>Tareas Pendientes</h1>
+
+                <div *ngIf="taskListNotCompleted.length > 0">
+                    <app-task *ngFor="let task of taskListNotCompleted; let index=index" 
+                        [task]="task" 
+                        [index]="index" 
+                        (complete)="completeTask($event)" 
+                        (remove)="removeTask($event)" >
+                    </app-task>
+                </div>
+
+                <div *ngIf="taskListNotCompleted.length === 0 && !showInputTask">
+                    <span>¡Felicidades! No tienes tareas pendientes</span>
+                </div>
+            
+                <button class="btn btn-primary" *ngIf="!showInputTask" (click)="showInputTextTask()">
+                    <i class="fa fa-plus" aria-hidden="true"></i>Añadir tarea
+                </button>
+
+                <div *ngIf="showInputTask" class="input-group mt-2 mb-2">
+                    <input type="text" class="form-control" #task (keydown.enter)="addTask(task.value)">
+                    <span class="input-group-btn">
+                        <button type="button" (click)="addTask(task.value)" class="btn btn-primary rounded-0">Añadir</button>
+                    </span>
+                </div>
+
+                <div class="alert alert-danger" *ngIf="errorInput" role="alert">
+                    La tarea no puede estar vacía
+                </div>
+            </div>    
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h1>Tareas Completadas</h1>
+
+                <button type="button" class="btn btn-primary mb-2" (click)="showCompletedTasks()">
+                    <span *ngIf="showCompleted" >
+                        <i class="fa fa-eye-slash" aria-hidden="true"></i>Ocultar tareas completadas    
+                    </span>
+                    
+                    <span *ngIf="!showCompleted" >
+                        <i class="fa fa-eye" aria-hidden="true"></i>Mostrar tareas completadas
+                    </span>
+
+                    
+                </button>
+
+                <div *ngIf="taskListCompleted.length > 0 && showCompleted">
+                    <app-task *ngFor="let task of taskListCompleted; let index=index" 
+                        [task]="task" 
+                        [index]="index">
+                    </app-task>
+                </div>
+
+                <div *ngIf="taskListCompleted.length === 0 && showCompleted">
+                    <span>No tienes tareas completadas</span>
+                </div>
+            
+                
+            </div>    
+        </div>
+    </div>
+</div>
